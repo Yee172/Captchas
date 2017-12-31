@@ -6,3 +6,4 @@
 *.log
 test_solver/
 __pycache__/
+test/
