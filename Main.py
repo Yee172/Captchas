@@ -7,7 +7,7 @@ __date__ = '2017/12/29'
 from Func import *
 
 
-DRIVER_OPTION = 2
+DRIVER_OPTION = 1
 SOURCE = 'https://pan.baidu.com/share/init?surl=miwy4YW'
 WRONG_INPUT = '0000'
 TARGET_NUMBER = 200
@@ -31,21 +31,24 @@ def main():
     while 1:
         if INDEX > TARGET_NUMBER:
             break
-        element = driver.find_element_by_xpath('//*[@id="iyhRgJK"]')
-        img_url = element.get_attribute('src')
-        data = request.urlopen(img_url).read()
-        sys.stdout.write('Collecting on %d\r' % INDEX)
-        sys.stdout.flush()
-        filename = '%07d.png' % INDEX
-        with open(PATH + '/Captchas/' + filename, 'wb') as f:
-            f.write(data)
-        INDEX = update_setting()
-        driver.find_element_by_xpath('//*[@id="hhQdpp"]/div[2]/form/div[2]/dl[2]/dd/a').click()
-    sys.stdout.write(''.center(50) + '\r')
-    print('DONE!')
+        try:
+            element = driver.find_element_by_xpath('//*[@id="iyhRgJK"]')
+            img_url = element.get_attribute('src')
+            data = request.urlopen(img_url).read()
+            sys.stdout.write('Collecting on %d\r' % INDEX)
+            sys.stdout.flush()
+            filename = '%07d.png' % INDEX
+            with open(PATH + '/Captchas/' + filename, 'wb') as f:
+                f.write(data)
+            INDEX = update_setting()
+            driver.find_element_by_xpath('//*[@id="hhQdpp"]/div[2]/form/div[2]/dl[2]/dd/a').click()
+        except:
+            driver.find_element_by_xpath('//*[@id="hhQdpp"]/div[2]/form/div[2]/dl[2]/dd/a').click()
 
 
 os.system('clear')
 print('YOUR TARGET NUMBER:')
 TARGET_NUMBER = int(input())
 main()
+sys.stdout.write(''.center(50) + '\r')
+print('DONE!')
