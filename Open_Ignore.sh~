@@ -1,0 +1,3 @@
+folderpath=$(cd `dirname $0`; pwd)
+cd $folderpath
+open -a Sublime\ Text .gitignore
