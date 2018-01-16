@@ -21,18 +21,23 @@ def main():
     if DRIVER_OPTION is 2:
         driver = webdriver.PhantomJS()
     driver.get(SOURCE)
-    driver.find_element_by_xpath('//*[@id="dtQNPK"]').send_keys(WRONG_INPUT)
+    driver.find_element_by_css_selector('[class=clearfix]').send_keys(WRONG_INPUT)
+    button = driver.find_element_by_css_selector('[title=提取文件]')
     while 1:
-        driver.find_element_by_xpath('//*[@id="chRZvR"]/a/span/span').click()
-        info_content = driver.find_element_by_xpath('//*[@id="ejQ1b3"]').text
-        if info_content.find('验证码') > 0:
-            break
+        button.click()
+        try:
+            info_content = driver.find_element_by_css_selector('[style=display: block;]').text
+            if info_content.find('验证码') > 0:
+                break
+        except:
+            pass
         sleep(0.2)
     while 1:
         if INDEX > TARGET_NUMBER:
             break
+        change_button = driver.find_element_by_css_selector('[class=change-code]')
         try:
-            element = driver.find_element_by_xpath('//*[@id="iyhRgJK"]')
+            element = driver.find_element_by_css_selector('[alt=验证码获取中]')
             img_url = element.get_attribute('src')
             data = request.urlopen(img_url).read()
             sys.stdout.write('Collecting on %d\r' % INDEX)
@@ -41,9 +46,9 @@ def main():
             with open(PATH + '/Captchas/' + filename, 'wb') as f:
                 f.write(data)
             INDEX = update_setting()
-            driver.find_element_by_xpath('//*[@id="hhQdpp"]/div[2]/form/div[2]/dl[2]/dd/a').click()
+            change_button.click()
         except:
-            driver.find_element_by_xpath('//*[@id="hhQdpp"]/div[2]/form/div[2]/dl[2]/dd/a').click()
+            change_button.click()
 
 
 os.system('clear')
