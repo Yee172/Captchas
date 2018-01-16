@@ -25,19 +25,16 @@ def main():
     button = driver.find_element_by_css_selector('[title=提取文件]')
     while 1:
         button.click()
-        try:
-            info_content = driver.find_element_by_css_selector('[style=display: block;]').text
-            if info_content.find('验证码') > 0:
-                break
-        except:
-            pass
+        info_content = driver.find_element_by_css_selector('[class=verify-form]').text
+        if info_content.find('请输入验证码') > 0:
+            break
         sleep(0.2)
     while 1:
         if INDEX > TARGET_NUMBER:
             break
         change_button = driver.find_element_by_css_selector('[class=change-code]')
         try:
-            element = driver.find_element_by_css_selector('[alt=验证码获取中]')
+            element = driver.find_element_by_css_selector('[verify=verify]')
             img_url = element.get_attribute('src')
             data = request.urlopen(img_url).read()
             sys.stdout.write('Collecting on %d\r' % INDEX)
