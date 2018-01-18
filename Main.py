@@ -7,7 +7,7 @@ __date__ = '2017/12/29'
 from Func import *
 
 
-DRIVER_OPTION = 1
+DRIVER_OPTION = 2
 SOURCE = 'https://pan.baidu.com/share/init?surl=miwy4YW'
 WRONG_INPUT = '0000'
 TARGET_NUMBER = 200
@@ -21,7 +21,7 @@ def main():
     if DRIVER_OPTION is 2:
         driver = webdriver.PhantomJS()
     driver.get(SOURCE)
-    driver.find_element_by_css_selector('[class=clearfix]').send_keys(WRONG_INPUT)
+    driver.find_element_by_css_selector('[type=text]').send_keys(WRONG_INPUT)
     button = driver.find_element_by_css_selector('[title=提取文件]')
     while 1:
         button.click()
